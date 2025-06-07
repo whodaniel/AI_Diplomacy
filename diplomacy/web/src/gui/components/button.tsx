@@ -14,10 +14,20 @@
 //  You should have received a copy of the GNU Affero General Public License along
 //  with this program.  If not, see <https://www.gnu.org/licenses/>.
 // ==============================================================================
-import React from "react";
+import * as React from "react";
 import PropTypes from "prop-types";
 
-export class Button extends React.Component {
+interface ButtonProps {
+    title: string;
+    onClick: (event?: any) => void; // Or React.MouseEventHandler<HTMLButtonElement> if more specific event handling is needed
+    color?: string;
+    large?: boolean;
+    small?: boolean;
+    pickEvent?: boolean;
+    disabled?: boolean;
+}
+
+export class Button extends React.Component<ButtonProps> {
     /** Bootstrap button.
      * Bootstrap classes:
      * - btn
@@ -31,28 +41,35 @@ export class Button extends React.Component {
     // large = false
     // small = false
 
-    constructor(props) {
+    constructor(props: ButtonProps) {
         super(props);
         this.onClick = this.onClick.bind(this);
     }
 
-    onClick(event) {
-        if (this.props.onClick)
-            this.props.onClick(this.props.pickEvent ? event : null);
+    onClick(event: React.MouseEvent<HTMLButtonElement>) {
+        if (this.props.onClick) {
+            this.props.onClick(this.props.pickEvent ? event : undefined);
+        }
     }
 
     render() {
+        const { color, large, small, disabled, title } = this.props;
+        const btnColor = color || 'secondary';
+        const btnBlock = large ? ' btn-block' : '';
+        const btnSm = small ? ' btn-sm' : '';
+
         return (
             <button
-                className={`btn btn-${this.props.color || 'secondary'}` + (this.props.large ? ' btn-block' : '') + (this.props.small ? ' btn-sm' : '')}
-                disabled={this.props.disabled}
+                className={`btn btn-${btnColor}${btnBlock}${btnSm}`}
+                disabled={disabled}
                 onClick={this.onClick}>
-                <strong>{this.props.title}</strong>
+                <strong>{title}</strong>
             </button>
         );
     }
 }
 
+/*
 Button.propTypes = {
     title: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
@@ -63,6 +80,7 @@ Button.propTypes = {
     disabled: PropTypes.bool
 };
 
-Button.defaultPropTypes = {
+Button.defaultProps = { // Renamed from defaultPropTypes
     disabled: false
 };
+*/

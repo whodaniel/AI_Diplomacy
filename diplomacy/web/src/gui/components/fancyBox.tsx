@@ -14,42 +14,41 @@
 //  You should have received a copy of the GNU Affero General Public License along
 //  with this program.  If not, see <https://www.gnu.org/licenses/>.
 // ==============================================================================
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
+import {Button} from "./button";
 
-class Div extends React.Component {
-    getClassName() {
-        return '';
-    }
+const TIMES = '\u00D7';
 
+interface FancyBoxProps {
+  title: string;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+export class FancyBox extends React.Component<FancyBoxProps> {
     render() {
         return (
-            <div className={this.getClassName() + (this.props.className ? ' ' + this.props.className : '')}>
-                {this.props.children}
+            <div className="fancy-box">
+                <div className="fancy-bar p-1 d-flex flex-row">
+                    <div
+                        className="flex-grow-1 fancy-title d-flex flex-column justify-content-center pr-0 pr-sm-1">{this.props.title}</div>
+                    <div className="fancy-button">
+                        <Button title={TIMES} color={'danger'} onClick={this.props.onClose}/>
+                    </div>
+                </div>
+                <div className="fancy-content p-2">
+                    {this.props.children}
+                </div>
             </div>
         );
     }
 }
 
-Div.propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
+/*
+FancyBox.propTypes = {
+    title: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+    children: PropTypes.any.isRequired
 };
-
-export class Bar extends Div {
-    getClassName() {
-        return 'bar';
-    }
-}
-
-export class Row extends Div {
-    getClassName() {
-        return 'row';
-    }
-}
-
-export class Col extends Div {
-    getClassName() {
-        return 'col';
-    }
-}
+*/

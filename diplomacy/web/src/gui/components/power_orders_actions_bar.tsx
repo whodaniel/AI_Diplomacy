@@ -14,12 +14,19 @@
 //  You should have received a copy of the GNU Affero General Public License along
 //  with this program.  If not, see <https://www.gnu.org/licenses/>.
 // ==============================================================================
-import React from 'react';
+import * as React from 'react';
 import {Button} from "./button";
 import {Bar} from "./layouts";
 import PropTypes from 'prop-types';
 
-export class PowerOrdersActionBar extends React.Component {
+interface PowerOrdersActionBarProps {
+    onReset: () => void;
+    onDeleteAll: () => void;
+    onUpdate: () => void;
+    onProcess?: () => void;
+}
+
+export class PowerOrdersActionBar extends React.Component<PowerOrdersActionBarProps> {
     render() {
         return (
             <Bar className={'p-2'}>
@@ -27,16 +34,18 @@ export class PowerOrdersActionBar extends React.Component {
                 <Button title={'reset'} onClick={this.props.onReset}/>
                 <Button title={'delete all'} onClick={this.props.onDeleteAll}/>
                 <Button color={'primary'} title={'update'} onClick={this.props.onUpdate}/>
-                {(this.props.onProcess &&
-                    <Button color={'danger'} title={'process game'} onClick={this.props.onProcess}/>) || ''}
+                {this.props.onProcess &&
+                    <Button color={'danger'} title={'process game'} onClick={this.props.onProcess}/>}
             </Bar>
         );
     }
 }
 
+/*
 PowerOrdersActionBar.propTypes = {
     onReset: PropTypes.func.isRequired,
     onDeleteAll: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onProcess: PropTypes.func
 };
+*/
