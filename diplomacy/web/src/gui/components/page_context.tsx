@@ -14,6 +14,12 @@
 //  You should have received a copy of the GNU Affero General Public License along
 //  with this program.  If not, see <https://www.gnu.org/licenses/>.
 // ==============================================================================
-import React from "react";
+import * as React from "react";
+// Import Page type for context typing. Use 'type' keyword if Page class itself imports PageContext to avoid circular dependencies.
+// However, since Page is a class and likely the provider, this might be okay, or PageContextType can be defined in Page.tsx
+// For now, let's assume Page type will be available or use 'any'.
+// import type { Page } from "../pages/page";
 
-export const PageContext = React.createContext(null);
+// If Page is not available here due to load order or circular deps, use 'any' or a placeholder
+export const PageContext = React.createContext<any | null>(null);
+export type PageContextType = any | null; // Exporting the type for Page.tsx to use
